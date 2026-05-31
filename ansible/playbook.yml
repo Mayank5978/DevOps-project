@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Install Docker
+      yum:
+        name: docker
+        state: present
+    
+    - name: Start Docker
+      service:
+        name: docker
+        state: started
+    
+    - name: Pull & Run Container
+      docker_container:
+        name: webapp
+        image: YOUR_DOCKERHUB_USERNAME/webapp:latest
+        ports:
+          - "8080:80"
+        state: started
